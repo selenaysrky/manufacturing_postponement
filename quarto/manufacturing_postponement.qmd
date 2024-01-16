@@ -1,0 +1,65 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+---
+title: "Manufacturing Postponement"
+sidebar: false 
+---
+
+
+```{r}
+#Reading the imported Excel file 
+library(readxl)
+november_orders <- read_excel("C:/Users/tt055367/Desktop/Bitirme/Data/november_orders.xlsx")
+View(november_orders)
+```
+
+```{r}
+#Renaming the file
+nov_po <- november_orders
+```
+
+```{r}
+#Checking if there exists NA's
+sum(is.na(nov_po$`Müşteri siparişi`))
+sum(is.na(nov_po$'Ötelenmemesi Gereken Sipariş'))
+sum(is.na(nov_po$'Gövde Stok'))
+sum(is.na(nov_po$'Kabin Stok'))
+sum(is.na(nov_po$'TR6 Gövde'))
+sum(is.na(nov_po$'Üretim versiyonu'))
+sum(is.na(nov_po$'Satış organizasyonu'))
+sum(is.na(nov_po$'Fiili btş.trm.'))
+sum(is.na(nov_po$'Pln.bşl.termini'))
+sum(is.na(nov_po$'Yeni Tarih'))
+sum(is.na(nov_po$'Seri'))
+```
+
+```{r}
+#Removing the NA's
+clean_otelemeYok <- na.omit(nov_po$`Ötelenmemesi Gereken Sipariş`)
+sum(is.na(clean_otelemeYok))
+clean_govde <- na.omit(nov_po$'Gövde Stok')
+sum(is.na(clean_govde))
+clean_kabin <- na.omit(nov_po$'Kabin Stok')
+sum(is.na(clean_kabin))
+clean_TR6 <- na.omit(nov_po$'TR6 Gövde')
+sum(is.na(clean_TR6))
+clean_bitis <- na.omit(nov_po$'Fiili btş.trm.')
+sum(is.na(clean_bitis))
+```
+
+```{r}
+#Checking if the removal is successful
+sum(is.na("TR6 Gövde"))
+sum(is.na("Gövde Stok"))
+```
+
+```{r}
+#Executing the data frame to check if there exists any wrong deletings
+nov_po
+```
+
+Initial data frame had 5240 rows and 11 columns, this is still valid so
+the removal of NA's contains no errors.
