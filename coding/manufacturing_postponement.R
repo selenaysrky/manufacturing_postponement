@@ -47,6 +47,13 @@ sum(is.na(clean_seri))
 sum(is.na("TR6 Gövde"))
 sum(is.na("Gövde Stok"))
 
-#Executing the data frame to check if there exists any wrong deletings
+
+# Orders without a body or cabin should be postponed, filter them
+nov_po_filtered <- filter(nov_po, `Gövde Stok` == "0" & `Kabin Stok` == "0")
+print(nov_po_filtered)
+
+# Adding a new column for prioritized orders
+nov_po <- mutate(nov_po, "Customer Priority Orders" = NA)
 nov_po
+
 
