@@ -50,10 +50,12 @@ sum(is.na("Gövde Stok"))
 
 # Orders without a body or cabin should be postponed, filter them
 nov_po_filtered <- filter(nov_po, `Gövde Stok` == "0" & `Kabin Stok` == "0")
-print(nov_po_filtered)
 
-# Adding a new column for prioritized orders
-nov_po <- mutate(nov_po, "Customer Priority Orders" = NA)
-nov_po
+
+# Generate all days of the year 2024
+days_2024 <- seq(as.Date("2024-01-01"), as.Date("2024-12-31"), by = "days")
+
+# Create a data frame
+days_df <- data.frame(Date = days_2024)
 
 
