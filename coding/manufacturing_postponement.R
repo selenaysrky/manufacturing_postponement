@@ -78,5 +78,53 @@ work_days <- days_2024 %>%
   filter(!(Date %in% all_holidays) & IsHoliday == TRUE)
 
 
+library(shiny)
+library(readxl)
+library(dplyr)
 
+ui <- fluidPage(
+  titlePanel("November Orders Analysis"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      fileInput("file", "Choose Excel File", accept = c(".xlsx")),
+      tags$hr(),
+      checkboxGroupInput("check_columns", "Columns to Check", choices = colnames(november_orders)),
+      tags$hr(),
+      actionButton("btn_process", "Process Data"),
+      tags$hr(),
+      textOutput("message")
+    ),
+    
+    mainPanel(
+      tableOutput("table")
+    )
+  )
+)
 
+server <- function(input, output) {
+  data <- reactiveVal(NULL)
+  
+  observeEvent(input$file, {
+    data(read_excel(input$file$datapath))
+  })
+  
+  observeEvent(input$btn_process, {
+    if (!is.null(data())) {
+      columns_to_check <- input$check_columns
+      check_na <- lapply(columns_to_check, function(col) sum(is.na(data()[[col]])))
+      output$message <- renderText({
+        paste("NA count for each selected column:", sapply(check_na, toString))
+      })
+      
+      # Perform additional operations if needed
+      
+      # Display cleaned data
+      output$table <- renderTable({
+        na.omit(data())
+      })
+    }
+  })
+}
+
+shinyApp(ui, server)
