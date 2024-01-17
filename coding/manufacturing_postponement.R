@@ -73,17 +73,9 @@ days_2024$IsHoliday <- as.Date(days_2024$Date) %in% as.Date(all_holidays)
 # Change date format to "31/12/2024"
 days_2024$Date <- format(days_2024$Date, "%d/%m/%Y")
 
-
-# Install and load the DT package
-install.packages("DT")
-install.packages("htmltools")
-library(DT)
-
-
-# Create a filterable table
-datatable(nov_po_filtered, options = list(searching = TRUE))
-
-
+# Find the work days
+work_days <- days_2024 %>%
+  filter(!(Date %in% all_holidays) & IsHoliday == TRUE)
 
 
 
